@@ -25,6 +25,8 @@
                     <li>@Html.ActionLink("首頁", "Index", "Home")</li>
                     <li>@Html.ActionLink("關於", "About", "Home")</li>
                     <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("測試", "Test", "Home")</li>
+                    <li>@Html.ActionLink("Hello", "Index", "Hello")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -34,7 +36,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
+            <p>© 2017 - cal's ASP.NET 應用程式</p>
         </footer>
     </div>
 
