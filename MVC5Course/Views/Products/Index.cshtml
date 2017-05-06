@@ -26,7 +26,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.ProductName)
@@ -35,7 +36,16 @@
             @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Active)
+            @*@Html.DisplayFor(modelItem => item.Active)*@
+            @if (item.Active ?? false)
+            {
+                @:Yes
+            }
+                else
+                {
+                @:No
+            }
+                
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Stock)
