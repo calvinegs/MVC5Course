@@ -16,12 +16,12 @@ namespace MVC5Course.Controllers
         private FabricsEntities db = new FabricsEntities();
 
         // GET: Products
-        public ActionResult Index(bool Active = false)
+        public ActionResult Index(bool Active = true)
         {
             //return View(db.Product.ToList());
             //return View(db.Product.OrderByDescending(p => p.ProductName).Take(20));
             return View(db.Product
-                .Where(p => p.Active.HasValue && p.Active.Value == Active)
+                //.Where(p => p.Active.HasValue && p.Active.Value == Active)
                 .Where(p => p.ProductName.StartsWith("w"))
                 .OrderByDescending(p=>p.ProductName));
         }
@@ -133,7 +133,7 @@ namespace MVC5Course.Controllers
         public ActionResult ListProducts()
         {
             var data = db.Product
-                    .Where(p => p.Active == true)
+                    //.Where(p => p.Active == true)
                     .Select(p => new ProductLiteVM ()
                     {
                         ProductId = p.ProductId,
@@ -143,6 +143,27 @@ namespace MVC5Course.Controllers
                     })
                     .Take(10);
             return View(data);
+        }
+
+        public ActionResult CreateProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateProduct(ProductLiteVM data)
+        {
+            if (ModelState.IsValid)
+            {
+
+                //var data = db.Product.w
+                //db.Product.Add(data);
+                
+                db.SaveChanges();
+                return RedirectToAction("ListProducts");
+            }
+
+            return View();
         }
     }
 }
