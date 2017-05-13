@@ -11,14 +11,14 @@ using MVC5Course.Models.ViewModels;
 
 namespace MVC5Course.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
         //private FabricsEntities db = new FabricsEntities();
 
         //var repo = new ProductRepository(); // 未包含資料庫連線，只包含資料庫存取
         //repo.UnitOfWork = new EFUnitOfWork();
-
-        ProductRepository repo = RepositoryHelper.GetProductRepository();
+        //=> 上述二行可用下一行替代
+        //ProductRepository repo = RepositoryHelper.GetProductRepository();
 
         // GET: Products
         public ActionResult Index(bool Active = true)
@@ -141,9 +141,17 @@ namespace MVC5Course.Controllers
             //Product product = db.Product.Find(id);
             //db.Product.Remove(product);
             //db.SaveChanges();
-
+            repo.UnitOfWork.Context.Configuration.ValidateOnSaveEnabled = false;    //強迫關閉驗證
             Product product = repo.Get單筆資料ByProductID(id);
             repo.Delete(product);
+
+            var repoOrderLines = RepositoryHelper.GetOrderLineRepository(repo.UnitOfWork); //共用 unit of work
+            foreach (var item in product.OrderLine)
+            {
+                repoOrderLines.Delete(item);
+            }
+            //repoOrderLines.UnitOfWork.Commit();   // 上述已共用，所以不須要此行指令
+
             repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }

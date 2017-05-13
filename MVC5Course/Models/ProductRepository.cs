@@ -36,17 +36,24 @@ namespace MVC5Course.Models
                 all = base.All();
 
             return all
-                .Where(p => p.Active.HasValue && p.Active.Value == Active)
+                .Where(p => p.Active.HasValue && p.Active.Value == Active && p.Is刪除 == false)
                 .OrderByDescending(p => p.ProductId).Take(10);
         }
 
         public void Update(Product product)
         {
-            //return this.All().FirstOrDefault(p => p.ProductId == id);
-            //Product pdt = this.All().FirstOrDefault(p => p.ProductId == product.ProductId);
+            //db.Entry(product).State = EntityState.Modified;
+            //db.SaveChanges();
+
             this.UnitOfWork.Context.Entry(product).State = EntityState.Modified;
         }
 
+        public override void Delete(Product entity)
+        {
+            //base.Delete(entity);
+            this.UnitOfWork.Context.Configuration.ValidateOnSaveEnabled = false;    //強迫關閉驗證 ==> 最好寫在 controller
+            entity.Is刪除 = true;
+        }
     }
 
 	public  interface IProductRepository : IRepository<Product>

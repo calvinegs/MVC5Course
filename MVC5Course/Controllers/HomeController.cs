@@ -10,6 +10,7 @@ namespace MVC5Course.Controllers
     {
         public ActionResult Index()
         {
+            //this.View("About").ExecuteResult(this.ControllerContext);
             return View();
         }
 
@@ -32,5 +33,32 @@ namespace MVC5Course.Controllers
             return View();
         }
 
+        public ActionResult Unknow()
+        {
+            return View();
+        }
+
+        public ActionResult PartialAbout()
+        {
+            ViewBag.Message = "Your application description page.";
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("About");
+            }
+            else
+            {
+                return View("About");
+            }
+            
+        }
+
+        public ActionResult SomeAction()
+        {
+            //return View();
+            //return "<script>alert('建立成功能'); location.href='/';</script>";
+
+            //return Content("<script>alert('建立成功能'); location.href='/';</script>");
+            return PartialView("SuccessRedirect", "/");
+        }
     }
 }
