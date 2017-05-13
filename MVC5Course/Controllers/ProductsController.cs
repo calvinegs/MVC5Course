@@ -15,12 +15,24 @@ namespace MVC5Course.Controllers
     {
         private FabricsEntities db = new FabricsEntities();
 
+        //var repo = new ProductRepository(); // 未包含資料庫連線，只包含資料庫存取
+        //repo.UnitOfWork = new EFUnitOfWork();
+
+
+        ProductRepository repo = RepositoryHelper.GetProductRepository();
+
         // GET: Products
         public ActionResult Index(bool Active = true)
         {
+
+
+
+            //var data1 = repo.All();
+
             //return View(db.Product.ToList());
             //return View(db.Product.OrderByDescending(p => p.ProductName).Take(20));
-            return View(db.Product
+            return View(//db.Product
+                repo.All()
                 //.Where(p => p.Active.HasValue && p.Active.Value == Active)
                 .Where(p => p.ProductName.StartsWith("w"))
                 .OrderByDescending(p=>p.ProductName));
@@ -33,7 +45,7 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            Product product = repo.Get單筆資料ByProductID(id.Value);  // .All().FirstOrDefault(p => p.ProductId == id.Value);  //db.Product.Find(id);
             if (product == null)
             {
                 return HttpNotFound();
