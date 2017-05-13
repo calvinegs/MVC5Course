@@ -30,7 +30,7 @@ namespace MVC5Course.Models
         [Required(ErrorMessage = "請輸入商品名稱")]
         [StringLength(200, ErrorMessage = "欄位長度不得大於 200 個字元")]
         [MinLength(3), MaxLength(200)]
-        [商品名稱必須包含Will字串]
+        //[商品名稱必須包含Will字串]
         //[RegularExpression("(.+)-(.+)", ErrorMessage = "商品名稱格式錯誤!")]
         public string ProductName { get; set; }
         [DisplayName("商品價格")]
@@ -54,15 +54,15 @@ namespace MVC5Course.Models
     {
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (this.Price > 100 && this.Stock > 5)
-            {
-                yield return new ValidationResult("price & stock 不合理", new string[] { "price", "stock" });
-            }
+            //if (this.Price > 100 && this.Stock > 5)
+            //{
+            //    yield return new ValidationResult("price & stock 不合理", new string[] { "price", "stock" });
+            //}
 
-            if (this.OrderLine.Count > 3 && this.Stock == 0)
-            {
-                yield return new ValidationResult("stock 與訂單數量不符", new string[] { "Order", "stock" });
-            }
+            //if (this.OrderLine.Count > 3 && this.Stock == 0)
+            //{
+            //    yield return new ValidationResult("stock 與訂單數量不符", new string[] { "Order", "stock" });
+            //}
             yield break;
         }
     }
